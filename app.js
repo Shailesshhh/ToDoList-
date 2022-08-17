@@ -20,7 +20,7 @@ var options = {
   month : "long"
 }
 
-var day = today.toLocaleDateString("en-US",options);
+let day = today.toLocaleDateString("en-US",options);
   // var currentDAy = today.getDay();
   // var day = "";
 
@@ -71,17 +71,21 @@ var day = today.toLocaleDateString("en-US",options);
 
 app.post("/",function (req,res) {
 
-  let item =req.body.newItem;
-  items.push(item);
-
-
-    res.redirect("/");
+  let item =req.body.newItem ;
   
+  if (req.body.list === "work") {
+    workItems.push(item);
+    res.redirect("/work");
+  }else{
+    items.push(item);
+    res.redirect("/");
+  }
+
 });
 
 app.get("/work",function (req,res) {
   res.render("list",{listTitle:"Work List",newListItems:workItems});
-})
+});
 
 app.post("/work", function (req,res) {
   let item = req.body.newItem;
@@ -92,4 +96,4 @@ app.post("/work", function (req,res) {
 
 app.listen(3000,function () {
   console.log("server started on port 3000");
-})
+});
